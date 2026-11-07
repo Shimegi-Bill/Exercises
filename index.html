@@ -6,6 +6,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="復康運動">
+<meta name="theme-color" content="#EEF2EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111814" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- 版本號：每次改完 index.html 上載之前一定要改（手機靠佢自動更新） -->
+<script>window.__REHAB_VER='20261107-1';</script>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
 <title>復康運動</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +22,7 @@
   --bg:#EEF2EF; --surface:#FFFFFF; --ink:#18241E; --muted:#5D6B63; --line:#D5DDD8;
   --accent:#2C6E55; --accent-ink:#FFFFFF; --rest:#B8741F; --rest-soft:#F6E9D6; --danger:#B33A3A;
   --fig:#3A4842; --hl:#1F8A5E; --arrow:#C27A1E; --zone:#F3C98A; --wall:#D7DED9; --pic-bg:#F7FAF8;
+  --accent-soft:#CFE6DB;
   --f-body:"Noto Sans HK","PingFang HK","Microsoft JhengHei",system-ui,sans-serif;
   --f-num:"Barlow Condensed","Noto Sans HK",system-ui,sans-serif;
   --r:14px;
@@ -23,11 +30,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111814; --surface:#1A231E; --ink:#E8EFEA; --muted:#9AA9A0; --line:#2C3832;
   --accent:#5FB894; --accent-ink:#0D1611; --rest:#E0A04F; --rest-soft:#2E2617; --danger:#E07272;
-  --fig:#C9D4CE; --hl:#6BD3A4; --arrow:#E8A955; --zone:#6A4E22; --wall:#2C3832; --pic-bg:#141C18; color-scheme:dark}}
+  --fig:#C9D4CE; --hl:#6BD3A4; --arrow:#E8A955; --zone:#6A4E22; --wall:#2C3832; --pic-bg:#141C18; --accent-soft:#2F6650; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111814; --surface:#1A231E; --ink:#E8EFEA; --muted:#9AA9A0; --line:#2C3832;
   --accent:#5FB894; --accent-ink:#0D1611; --rest:#E0A04F; --rest-soft:#2E2617; --danger:#E07272;
-  --fig:#C9D4CE; --hl:#6BD3A4; --arrow:#E8A955; --zone:#6A4E22; --wall:#2C3832; --pic-bg:#141C18; color-scheme:dark}
+  --fig:#C9D4CE; --hl:#6BD3A4; --arrow:#E8A955; --zone:#6A4E22; --wall:#2C3832; --pic-bg:#141C18; --accent-soft:#2F6650; color-scheme:dark}
 html{font-size:17px}
 html.big{font-size:21px}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1rem;line-height:1.55}
@@ -46,7 +53,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px soli
 .btn.danger{color:var(--danger);border-color:var(--danger)}
 .btn.small{min-height:2.4rem;padding:0 .9rem;font-size:.9rem}
 .tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
-.tabs button{flex:1;max-width:190px;min-height:3.6rem;font-weight:700;color:var(--muted);font-size:.95rem}
+.tabs button{flex:1;max-width:190px;min-height:3.6rem;font-weight:700;color:var(--muted);font-size:min(.95rem,4.2vw);white-space:nowrap;padding:0 2px}
 .tabs button[aria-current="true"]{color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
 .chips{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.25rem;margin-bottom:.75rem}
 .chip{flex:none;min-height:2.6rem;padding:0 1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:500}
@@ -144,6 +151,34 @@ textarea{min-height:3rem;resize:vertical}
 .s-bottom .two{display:flex;gap:.5rem}
 .s-bottom .two .btn{min-height:min(3.2rem,7vh);font-size:min(1rem,2.4vh);padding:0 .5rem}
 .btn.rest{background:var(--rest);border-color:var(--rest);color:var(--accent-ink)}
+.s-big.prep,.s-state.prep{color:var(--rest)}
+/* resume banner */
+.resume{background:var(--rest-soft);border-radius:var(--r);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.5rem;margin-bottom:.8rem}
+.resume .row,.hist .foot,.edit .btns{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.done-today{color:var(--accent);font-weight:700}
+/* history stats + calendar */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.stat{background:var(--surface);border-radius:var(--r);padding:.6rem .4rem;text-align:center}
+.stat b{display:block;font-family:var(--f-num);font-size:2rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat b small{font-family:var(--f-body);font-size:.45em;margin-left:.15rem}
+.stat span{font-size:.8rem;color:var(--muted);font-weight:700}
+.cal{background:var(--surface);border-radius:var(--r);padding:.8rem}
+.cal .g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:.4rem}
+.cal .wd{font-size:.72rem;color:var(--muted);text-align:center;font-weight:700}
+.cal i{font-style:normal;aspect-ratio:1;border-radius:8px;display:grid;place-items:center;font-size:.85rem;font-family:var(--f-num);background:var(--bg);color:var(--muted);font-variant-numeric:tabular-nums}
+.cal i.p{background:var(--accent-soft);color:var(--ink)}
+.cal i.f{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.cal i.t{box-shadow:inset 0 0 0 2px var(--ink)}
+.cal i.fu{opacity:.3}
+.cal .legend{display:flex;gap:.8rem;justify-content:center;font-size:.75rem;color:var(--muted);margin-top:.5rem}
+.cal .legend i{display:inline-block;width:.8rem;height:.8rem;aspect-ratio:auto;border-radius:3px;vertical-align:-.1em;margin-right:.25rem}
+.hist .foot{justify-content:space-between;margin-top:.3rem}
+/* settings */
+.setrow{display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap}
+.setrow>span{font-weight:500}
+.setrow .kind{flex-wrap:wrap}
+.setrow .chip{padding:0 .75rem}
+.warn{color:var(--danger);font-weight:700}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -157,7 +192,8 @@ textarea{min-height:3rem;resize:vertical}
   <section id="v-home"></section>
   <section id="v-plans" hidden></section>
   <section id="v-hist" hidden></section>
-  <div class="save-note" id="saveNote"></div>
+  <section id="v-set" hidden></section>
+  <div class="save-note warn" id="saveNote" hidden></div>
 </div>
 
 <div class="dock" id="dock" hidden><button class="btn primary" id="startBtn">開始運動</button></div>
@@ -166,6 +202,7 @@ textarea{min-height:3rem;resize:vertical}
   <button data-v="home" aria-current="true">今日</button>
   <button data-v="plans">計劃 · 動作</button>
   <button data-v="hist">紀錄</button>
+  <button data-v="set">設定</button>
 </nav>
 
 <div class="session" id="session" hidden></div>
@@ -253,40 +290,56 @@ const PICS={
 const pic=k=>PICS[k]?PICS[k].draw():'';
 
 /* ---------- data ---------- */
-const DEFAULT={activeId:'p-physio',big:true,plans:[{id:'p-physio',name:'物理治療運動',items:[
- {id:'e1',kind:'ex',name:'右腳單腳企踮腳',sets:3,reps:10,hold:0,rest:60,pic:'heelRaise',note:'右腳單腳企，腳踭慢慢離地向上撐，再慢慢落返地。'},
- {id:'e2',kind:'ex',name:'右腳向右橫抬',sets:3,reps:10,hold:5,rest:60,pic:'sideRaise',note:'企直，右腳伸直向右慢慢橫移提高，撐 5 秒後慢慢放低。'},
- {id:'e3',kind:'ex',name:'右腳向後撐',sets:3,reps:10,hold:5,rest:60,pic:'backKick',note:'企直，右腳伸直向後用力撐住 5 秒，之後放低。'},
- {id:'e4',kind:'ex',name:'靠牆坐無影凳',sets:1,reps:1,hold:120,rest:60,pic:'wallSit',note:'背脊貼牆，膝頭屈 90 度坐無影凳，維持 2 分鐘。'},
- {id:'s1',kind:'st',name:'大腿前面拉筋',sets:1,reps:1,hold:30,rest:15,pic:'quadStretch',note:'右腳小腿向後屈，拉大腿前面肌肉。'},
- {id:'s2',kind:'st',name:'小腿後面拉筋',sets:1,reps:1,hold:30,rest:15,pic:'calfStretch',note:'右腳腳尖踮喺牆上，左腳同身體微微向前傾，拉小腿後面肌肉。'}]}]};
+const DEFAULT={activeId:'p-physio',big:true,voice:true,prep:5,autoNext:true,lastBackup:0,plans:[{id:'p-physio',name:'物理治療運動',items:[
+ {id:'e1',kind:'ex',name:'右腳單腳企踮腳',sets:3,reps:10,hold:0,rest:60,tempo:0,relax:RELAX,pic:'heelRaise',note:'右腳單腳企，腳踭慢慢離地向上撐，再慢慢落返地。'},
+ {id:'e2',kind:'ex',name:'右腳向右橫抬',sets:3,reps:10,hold:5,rest:60,tempo:0,relax:RELAX,pic:'sideRaise',note:'企直，右腳伸直向右慢慢橫移提高，撐 5 秒後慢慢放低。'},
+ {id:'e3',kind:'ex',name:'右腳向後撐',sets:3,reps:10,hold:5,rest:60,tempo:0,relax:RELAX,pic:'backKick',note:'企直，右腳伸直向後用力撐住 5 秒，之後放低。'},
+ {id:'e4',kind:'ex',name:'靠牆坐無影凳',sets:1,reps:1,hold:120,rest:60,tempo:0,relax:RELAX,pic:'wallSit',note:'背脊貼牆，膝頭屈 90 度坐無影凳，維持 2 分鐘。'},
+ {id:'s1',kind:'st',name:'大腿前面拉筋',sets:1,reps:1,hold:30,rest:15,tempo:0,relax:RELAX,pic:'quadStretch',note:'右腳小腿向後屈，拉大腿前面肌肉。'},
+ {id:'s2',kind:'st',name:'小腿後面拉筋',sets:1,reps:1,hold:30,rest:15,tempo:0,relax:RELAX,pic:'calfStretch',note:'右腳腳尖踮喺牆上，左腳同身體微微向前傾，拉小腿後面肌肉。'}]}]};
+const SET_DEF={voice:true,prep:5,autoNext:true,lastBackup:0};
+const PREPS=[0,3,5,10];
+const LOG_MAX=400;
 let S={plans:[],activeId:null,big:false};
 let H={log:[]};
 let view='home';
 const open=new Set();
-function norm(){S.plans.forEach(p=>p.items.forEach(i=>{i.kind=i.kind||'ex';i.hold=+i.hold||0;i.pic=i.pic||'';i.sets=+i.sets||1;i.reps=+i.reps||1;i.rest=+i.rest||0}))}
-
-const store={mode:'none',stateRef:null,histRef:null,chain:Promise.resolve(),timers:{}};
-function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-function queueSave(which){
-  clearTimeout(store.timers[which]);
-  store.timers[which]=setTimeout(()=>{
-    const body=JSON.parse(JSON.stringify(which==='state'?S:H));
-    lsSet('rehab-'+which,body);
-    const ref=which==='state'?store.stateRef:store.histRef;
-    if(store.mode==='db'&&ref){
-      store.chain=store.chain.then(()=>ref.set(body)).catch(e=>{
-        $('#saveNote').textContent=e&&e.code==='quota_exceeded'?'雲端儲存已滿，請刪除舊紀錄。':'暫時存唔到上雲端，已經存喺呢部機。';
-      });
-    }
-  },500);
+const clone=o=>JSON.parse(JSON.stringify(o));
+function norm(){
+  if(!Array.isArray(S.plans))S.plans=[];
+  for(const k in SET_DEF)if(S[k]===undefined)S[k]=SET_DEF[k];
+  S.prep=Math.min(30,Math.max(0,+S.prep||0));
+  S.plans.forEach(p=>{if(!Array.isArray(p.items))p.items=[];p.items.forEach(i=>{
+    i.kind=i.kind||'ex';i.hold=+i.hold||0;i.pic=i.pic||'';i.sets=+i.sets||1;i.reps=+i.reps||1;i.rest=+i.rest||0;
+    i.tempo=+i.tempo||0;i.relax=i.relax===undefined?RELAX:Math.max(0,+i.relax||0)})});
+  if(!H||!Array.isArray(H.log))H={log:[]};
 }
+
+/* ---------- storage ---------- */
+const store={mode:'none',stateRef:null,histRef:null,chain:Promise.resolve(),timers:{}};
+let saveMsg='';
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
+function warn(msg){const n=$('#saveNote');n.textContent=msg||'';n.hidden=!msg}
+function doSave(which){
+  clearTimeout(store.timers[which]);delete store.timers[which];
+  const body=clone(which==='state'?S:H);
+  if(!lsSet('rehab-'+which,body)&&store.mode!=='db')warn('呢部機嘅儲存空間滿咗，請去「設定」匯出備份，再喺「紀錄」刪除舊紀錄。');
+  const ref=which==='state'?store.stateRef:store.histRef;
+  if(store.mode==='db'&&ref){
+    store.chain=store.chain.then(()=>ref.set(body)).catch(e=>{
+      warn(e&&e.code==='quota_exceeded'?'雲端儲存已滿，請刪除舊紀錄。':'暫時存唔到上雲端，已經存喺呢部機。');
+    });
+  }
+}
+function queueSave(which){clearTimeout(store.timers[which]);store.timers[which]=setTimeout(()=>doSave(which),500)}
+function flushSaves(){Object.keys(store.timers).forEach(doSave)}
 async function initStore(){
   const ls=lsGet('rehab-state'),lh=lsGet('rehab-hist');
-  if(ls)S=Object.assign(S,ls);else S=JSON.parse(JSON.stringify(DEFAULT));
+  if(ls)S=Object.assign(S,ls);else S=clone(DEFAULT);
   if(lh)H=lh;
-  norm();applyFont();render();
+  norm();loadResume();applyFont();render();
   try{
     if(!window.claude||!window.claude.use)throw 0;
     const [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
@@ -296,50 +349,85 @@ async function initStore(){
     store.stateRef=col.doc('state');store.histRef=col.doc('history');
     const [a,b]=await Promise.all([store.stateRef.get(),store.histRef.get()]);
     store.mode='db';
-    if(a.exists){S=Object.assign({plans:[],activeId:null,big:false},JSON.parse(JSON.stringify(a.data())))}
+    if(a.exists){S=Object.assign({plans:[],activeId:null,big:false},clone(a.data()))}
     else{queueSave('state')}
-    if(b.exists){H=JSON.parse(JSON.stringify(b.data()));if(!Array.isArray(H.log))H.log=[]}
+    if(b.exists){H=clone(b.data());if(!Array.isArray(H.log))H.log=[]}
     else if(H.log.length){queueSave('hist')}
-    $('#saveNote').textContent='已自動儲存，換手機或電腦打開都見到。';
+    saveMsg='已自動儲存，換手機或電腦打開都見到。';
   }catch(e){
     store.mode='local';
-    $('#saveNote').textContent='資料自動存喺呢部手機嘅瀏覽器（清除瀏覽器資料會刪埋）。';
+    saveMsg='資料自動存喺呢部手機嘅瀏覽器（清除瀏覽器資料或者刪除主畫面圖示會冇埋），記得間中匯出備份。';
   }
   norm();applyFont();render();
 }
 
+/* ---------- helpers ---------- */
 const activePlan=()=>S.plans.find(p=>p.id===S.activeId)||S.plans[0]||null;
 function applyFont(){document.documentElement.classList.toggle('big',!!S.big);$('#fontBtn').setAttribute('aria-pressed',S.big?'true':'false');$('#fontBtn').textContent=S.big?'正常字':'大字'}
 function meta(i){
   const rest=` · 每組休息 ${fmtT(i.rest)}`;
   if(i.hold>0&&i.reps<=1)return `撐 ${fmtT(i.hold)}${i.sets>1?` × ${i.sets} 組${rest}`:''}`;
-  return `${i.sets} 組 × ${i.reps} 下${i.hold>0?` · 每下撐 ${i.hold} 秒`:''}${i.sets>1?rest:''}`;
+  const how=i.hold>0?` · 每下撐 ${i.hold} 秒${i.relax!==RELAX?`、放鬆 ${i.relax} 秒`:''}`:i.tempo>0?` · 每 ${i.tempo} 秒自動數一下`:'';
+  return `${i.sets} 組 × ${i.reps} 下${how}${i.sets>1?rest:''}`;
 }
 const kindName=k=>k==='st'?'拉筋':'動作';
+const dayKey=t=>{const d=new Date(t);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+const addDays=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const hm=t=>{const d=new Date(t);return `${pad(d.getHours())}:${pad(d.getMinutes())}`};
+const mdDate=t=>{const d=new Date(t);return `${d.getMonth()+1}月${d.getDate()}日`};
+const logDone=l=>l.items.reduce((a,i)=>a+(+i.done||0),0);
+const logTotal=l=>l.items.reduce((a,i)=>a+(+i.sets||0),0);
+function twoTap(t,label,fn){
+  if(t.dataset.sure){fn();return}
+  const old=t.textContent;t.dataset.sure='1';t.textContent=label;
+  setTimeout(()=>{if(t.isConnected){delete t.dataset.sure;t.textContent=old}},3000);
+}
+function makeEntry(s,endT){
+  return {t:s.start,plan:s.plan,planId:s.planId,dur:Math.max(0,Math.round((endT-s.start-(s.idle||0))/1000)),
+    items:s.items.map((i,k)=>({name:i.name||'未命名',sets:+i.sets,reps:+i.reps,done:(s.done&&s.done[k])||0}))};
+}
+function addLog(e){
+  if(!e.items.some(i=>i.done>0))return false;
+  H.log=H.log.filter(l=>l.t!==e.t);H.log.push(e);H.log.sort((a,b)=>b.t-a.t);
+  if(H.log.length>LOG_MAX)H.log.length=LOG_MAX;
+  queueSave('hist');return true;
+}
 
 /* ---------- views ---------- */
+const VIEWS=['home','plans','hist','set'];
 function setView(v){
   view=v;
-  ['home','plans','hist'].forEach(k=>{$('#v-'+k).hidden=k!==v});
+  VIEWS.forEach(k=>{$('#v-'+k).hidden=k!==v});
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===v?'true':'false'));
   window.scrollTo(0,0);render();
 }
 function chips(){
   return `<div class="chips" role="group" aria-label="揀計劃">${S.plans.map(p=>`<button class="chip" data-pick="${p.id}" aria-pressed="${activePlan()&&activePlan().id===p.id}">${esc(p.name)}</button>`).join('')}</div>`;
 }
+function resumeCard(){
+  const r=resume;if(!r)return '';
+  const done=(r.done||[]).reduce((a,b)=>a+(b||0),0),tot=r.items.reduce((a,i)=>a+(+i.sets||0),0);
+  const canGo=Date.now()-(r.savedAt||r.start)<12*3600e3;
+  return `<div class="resume"><b>上次運動未做完</b>
+    <div class="sub">${esc(r.plan)} · ${mdDate(r.start)} ${hm(r.start)} 開始 · 做咗 ${done} / ${tot} 組</div>
+    <div class="row">${canGo?`<button class="btn small primary" data-act="resume">繼續做</button>`:''}${done?`<button class="btn small" data-act="resumesave">儲存紀錄</button>`:''}<button class="btn small" data-act="resumedrop" data-has="${done?1:''}">唔要</button></div></div>`;
+}
 function renderHome(){
   const el=$('#v-home');const p=activePlan();
   $('#dock').hidden=!(view==='home'&&p&&p.items.length);
   if(!p){
-    el.innerHTML=`<div class="empty"><h2>未有運動計劃</h2>
+    el.innerHTML=`${resumeCard()}<div class="empty"><h2>未有運動計劃</h2>
       <div class="sub">喺「計劃 · 動作」加入物理治療師教你嘅動作，設定每組做幾多下、做幾多組、每下撐幾秒、組與組之間休息幾耐。</div>
       <button class="btn primary" data-act="newplan">新增第一個計劃</button></div>`;return;
   }
   const total=p.items.reduce((a,i)=>a+(+i.sets||0),0);
+  const today=dayKey(Date.now());
+  const todays=H.log.filter(l=>l.planId===p.id&&dayKey(l.t)===today);
   const last=H.log.find(l=>l.planId===p.id);
+  const when=todays.length?` · <span class="done-today">今日已做 ✓ ${hm(todays[0].t)}</span>`:last?` · 上次 ${mdDate(last.t)}`:'';
   const cnt={ex:0,st:0};
-  el.innerHTML=`${S.plans.length>1?chips():''}
-   <div class="top" style="padding-top:0"><div><h2>${esc(p.name)}</h2><div class="sub">${p.items.length} 項 · 共 ${total} 組${last?` · 上次 ${new Date(last.t).toLocaleDateString('zh-HK',{month:'numeric',day:'numeric'})}`:''}</div></div></div>
+  el.innerHTML=`${resumeCard()}${S.plans.length>1?chips():''}
+   <div class="top" style="padding-top:0"><div><h2>${esc(p.name)}</h2><div class="sub">${p.items.length} 項 · 共 ${total} 組${when}</div></div></div>
    ${p.items.length?`<div class="list">${p.items.map(i=>{cnt[i.kind]=(cnt[i.kind]||0)+1;
      return `<button class="ex ${i.pic?'':'nopic'} ${open.has(i.id)?'open':''}" data-open="${i.id}" aria-expanded="${open.has(i.id)}">
        <div class="thumb">${pic(i.pic)}</div>
@@ -368,6 +456,12 @@ function renderPlans(){
       <div class="field num"><label for="r-${i.id}">每組幾下</label><input id="r-${i.id}" type="number" inputmode="numeric" min="1" max="200" value="${i.reps}" data-f="reps"></div>
       <div class="field num"><label for="h-${i.id}">每下撐幾秒</label><input id="h-${i.id}" type="number" inputmode="numeric" min="0" max="600" value="${i.hold}" data-f="hold"></div>
     </div>
+    <div class="row" data-when="hold" ${i.hold>0?'':'hidden'}>
+      <div class="field num" style="max-width:9rem"><label for="x-${i.id}">每下之間放鬆幾秒</label><input id="x-${i.id}" type="number" inputmode="numeric" min="0" max="60" value="${i.relax}" data-f="relax"></div>
+    </div>
+    <div class="row" data-when="nohold" ${i.hold>0?'hidden':''}>
+      <div class="field num" style="max-width:13rem"><label for="m-${i.id}">自動數：每下幾秒（0＝自己撳）</label><input id="m-${i.id}" type="number" inputmode="numeric" min="0" max="30" value="${i.tempo}" data-f="tempo"></div>
+    </div>
     <div class="row">
       <div class="field num"><label for="rm-${i.id}">組間休息 分</label><input id="rm-${i.id}" type="number" inputmode="numeric" min="0" max="30" value="${Math.floor(i.rest/60)}" data-f="restm"></div>
       <div class="field num"><label for="rs-${i.id}">秒</label><input id="rs-${i.id}" type="number" inputmode="numeric" min="0" max="59" step="5" value="${i.rest%60}" data-f="rests"></div>
@@ -383,37 +477,94 @@ function renderPlans(){
    </div>`}).join('')}</div>
   <div style="margin-top:.8rem;display:flex;gap:.6rem"><button class="btn primary" style="flex:1" data-act="additem">＋ 加動作</button><button class="btn" style="flex:1" data-act="addst">＋ 加拉筋</button></div>`;
 }
+function histStats(){
+  const byDay=new Map();
+  H.log.forEach(l=>{const k=dayKey(l.t);const o=byDay.get(k)||{n:0,full:false};o.n++;if(logDone(l)>=logTotal(l))o.full=true;byDay.set(k,o)});
+  const now=new Date(),today0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const wkStart=addDays(today0,-((now.getDay()+6)%7)); // 星期一開始
+  let week=0;for(let i=0;i<7;i++)if(byDay.has(dayKey(addDays(wkStart,i))))week++;
+  let streak=0,d=byDay.has(dayKey(today0))?today0:addDays(today0,-1);
+  while(byDay.has(dayKey(d))){streak++;d=addDays(d,-1)}
+  return {byDay,today0,wkStart,week,streak};
+}
 function renderHist(){
   const el=$('#v-hist');
   if(!H.log.length){el.innerHTML=`<div class="empty"><h2>未有紀錄</h2><div class="sub">每次做完運動，日期、做咗幾多組同用咗幾耐會自動記錄喺度。</div></div>`;return}
-  let out='',lastDay='';
-  const days=new Set(H.log.map(l=>new Date(l.t).toDateString()));
-  out+=`<div class="sub" style="margin-bottom:.4rem">總共 ${H.log.length} 次 · ${days.size} 日</div>`;
+  const st=histStats();
+  const calStart=addDays(st.wkStart,-28),tk=dayKey(st.today0);
+  let cells='';
+  for(let i=0;i<35;i++){
+    const d=addDays(calStart,i),k=dayKey(d),o=st.byDay.get(k),fu=d>st.today0;
+    const cls=[fu?'fu':o?(o.full?'f':'p'):'',k===tk?'t':''].join(' ').trim();
+    const lab=`${d.getMonth()+1}月${d.getDate()}日${o?(o.full?'，全部做完':'，做咗一部分'):''}`;
+    cells+=`<i class="${cls}" title="${lab}" aria-label="${lab}">${d.getDate()===1?`${d.getMonth()+1}/1`:d.getDate()}</i>`;
+  }
+  let out=`<div class="stats">
+      <div class="stat"><b>${st.week}<small>日</small></b><span>今個星期</span></div>
+      <div class="stat"><b>${st.streak}<small>日</small></b><span>連續</span></div>
+      <div class="stat"><b>${H.log.length}<small>次</small></b><span>總共</span></div></div>
+    <div class="cal"><div class="sec" style="margin-top:0">最近 5 個星期</div><div class="g">${'一二三四五六日'.split('').map(w=>`<div class="wd">${w}</div>`).join('')}${cells}</div>
+      <div class="legend"><span><i class="f"></i>全部做完</span><span><i class="p"></i>做咗一部分</span></div></div>`;
+  let lastDay='';
   H.log.forEach(l=>{
     const d=new Date(l.t),dk=d.toLocaleDateString('zh-HK',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
     if(dk!==lastDay){out+=`<div class="day">${dk}</div>`;lastDay=dk}
-    const done=l.items.reduce((a,i)=>a+i.done,0),tot=l.items.reduce((a,i)=>a+i.sets,0);
-    out+=`<div class="hist"><div class="h">${esc(l.plan)}<span>${pad(d.getHours())}:${pad(d.getMinutes())} · ${Math.max(1,Math.round(l.dur/60))} 分鐘</span></div>
+    const done=logDone(l),tot=logTotal(l);
+    out+=`<div class="hist"><div class="h">${esc(l.plan)}<span>${hm(l.t)} · ${Math.max(1,Math.round(l.dur/60))} 分鐘</span></div>
       <ul>${l.items.map(i=>`<li><span>${esc(i.name)}</span><span>${i.done>=i.sets?'<span class="ok">✓</span> ':''}${i.done}/${i.sets} 組</span></li>`).join('')}</ul>
-      <div class="sub" style="margin-top:.3rem">${done>=tot?'<span class="ok">全部完成</span>':`完成 ${done}/${tot} 組`}</div></div>`;
+      <div class="foot"><div class="sub">${done>=tot?'<span class="ok">全部完成</span>':`完成 ${done}/${tot} 組`}</div><button class="btn small danger" data-delhist="${l.t}">刪除</button></div></div>`;
   });
   el.innerHTML=`<div class="list">${out}</div>`;
+}
+function onOff(key,on){return `<div class="kind"><button class="chip" data-set="${key}" data-val="1" aria-pressed="${!!on}">開</button><button class="chip" data-set="${key}" data-val="0" aria-pressed="${!on}">關</button></div>`}
+function renderSet(){
+  const el=$('#v-set');
+  el.innerHTML=`<div class="list">
+  <div class="edit"><h2>顯示</h2>
+    <div class="setrow"><span>字體大細</span><div class="kind"><button class="chip" data-set="big" data-val="0" aria-pressed="${!S.big}">正常字</button><button class="chip" data-set="big" data-val="1" aria-pressed="${!!S.big}">大字</button></div></div>
+  </div>
+  <div class="edit"><h2>聲音</h2>
+    <div class="setrow"><span>廣東話語音提示</span>${onOff('voice',S.voice)}</div>
+    <div class="setrow"><span>嗶聲一定會響</span><button class="btn small" data-act="testvoice">試聲</button></div>
+  </div>
+  <div class="edit"><h2>做運動</h2>
+    <div class="setrow"><span>撳開始之後，準備幾秒先開始</span><div class="kind">${PREPS.map(n=>`<button class="chip" data-set="prep" data-val="${n}" aria-pressed="${S.prep===n}">${n?n+' 秒':'唔使'}</button>`).join('')}</div></div>
+    <div class="setrow"><span>休息完自動開始（撐住、自動數嘅動作）</span>${onOff('autoNext',S.autoNext)}</div>
+  </div>
+  <div class="edit"><h2>備份</h2>
+    <div>${esc(saveMsg)}</div>
+    <div>上次匯出：${S.lastBackup?`${new Date(S.lastBackup).toLocaleDateString('zh-HK',{year:'numeric',month:'long',day:'numeric'})}`:'<span class="warn">未匯出過</span>'}</div>
+    <div class="btns"><button class="btn small primary" data-act="export">匯出備份</button><button class="btn small" data-act="import">匯入備份</button></div>
+    <div id="bkMsg"></div>
+  </div>
+  <div class="edit"><h2>版本</h2>
+    <div class="setrow"><span>版本 ${esc(VER)}</span><button class="btn small" data-act="checkupd">檢查更新</button></div>
+    <div id="updMsg"></div>
+  </div></div>`;
 }
 function render(){
   $('#today').textContent=new Date().toLocaleDateString('zh-HK',{month:'long',day:'numeric',weekday:'long'});
   if(view==='home')renderHome();else $('#dock').hidden=true;
   if(view==='plans')renderPlans();
   if(view==='hist')renderHist();
+  if(view==='set')renderSet();
 }
 
 /* ---------- events ---------- */
 document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setView(b.dataset.v)});
-$('#fontBtn').addEventListener('click',()=>{S.big=!S.big;applyFont();queueSave('state')});
-const newItem=kind=>kind==='st'?{id:uid(),kind:'st',name:'',sets:1,reps:1,hold:30,rest:15,note:'',pic:''}:{id:uid(),kind:'ex',name:'',sets:3,reps:10,hold:0,rest:60,note:'',pic:''};
+$('#fontBtn').addEventListener('click',()=>{S.big=!S.big;applyFont();queueSave('state');if(view==='set')renderSet()});
+const newItem=kind=>kind==='st'?{id:uid(),kind:'st',name:'',sets:1,reps:1,hold:30,rest:15,tempo:0,relax:RELAX,note:'',pic:''}:{id:uid(),kind:'ex',name:'',sets:3,reps:10,hold:0,rest:60,tempo:0,relax:RELAX,note:'',pic:''};
 document.addEventListener('click',e=>{
   const t=e.target.closest('button');if(!t||t.closest('#session'))return;
   if(t.dataset.open){const id=t.dataset.open;open.has(id)?open.delete(id):open.add(id);renderHome();return}
   if(t.dataset.pick){S.activeId=t.dataset.pick;queueSave('state');render();return}
+  if(t.dataset.set){
+    const k=t.dataset.set,v=+t.dataset.val;
+    if(k==='prep')S.prep=v;else S[k]=!!v;
+    if(k==='big')applyFont();
+    queueSave('state');renderSet();return;
+  }
+  if(t.dataset.delhist){const ts=+t.dataset.delhist;twoTap(t,'再撳一次確認',()=>{H.log=H.log.filter(l=>l.t!==ts);queueSave('hist');render()});return}
   const a=t.dataset.act;const p=activePlan();
   if(a==='newplan'){const np={id:uid(),name:'新計劃',items:[newItem('ex')]};S.plans.push(np);S.activeId=np.id;queueSave('state');setView('plans');setTimeout(()=>{const i=$('#pname');i&&i.select()},50)}
   else if(a==='goplans'){setView('plans')}
@@ -421,114 +572,200 @@ document.addEventListener('click',e=>{
   else if(a==='askdelplan'&&p){$('#delplan').innerHTML=`<div class="confirm"><div>確定刪除「${esc(p.name)}」？入面嘅動作都會刪除，紀錄會保留。</div><div class="row"><button class="btn small danger" data-act="delplan">刪除</button><button class="btn small" data-act="nodel">取消</button></div></div>`}
   else if(a==='nodel'){$('#delplan').innerHTML=''}
   else if(a==='delplan'&&p){S.plans=S.plans.filter(x=>x.id!==p.id);S.activeId=S.plans[0]?S.plans[0].id:null;queueSave('state');render()}
+  else if(a==='resume'&&resume){doResume()}
+  else if(a==='resumesave'&&resume){addLog(makeEntry(resume,resume.savedAt||resume.start));resume=null;clearSess();render()}
+  else if(a==='resumedrop'&&resume){const drop=()=>{resume=null;clearSess();render()};t.dataset.has?twoTap(t,'再撳一次確認唔要',drop):drop()}
+  else if(a==='testvoice'){unlockAudio();beep(880,180);say('試吓把聲。一、二、三',true)}
+  else if(a==='export'){exportBackup()}
+  else if(a==='import'){pickImport()}
+  else if(a==='impok'){applyImport()}
+  else if(a==='impno'){pendingImport=null;$('#bkMsg').innerHTML=''}
+  else if(a==='checkupd'){checkUpdate(true)}
   const card=t.closest('[data-item]');
   if(card&&p){
-    const idx=p.items.findIndex(i=>i.id===card.dataset.item);const it=p.items[idx];
+    const idx=p.items.findIndex(i=>i.id===card.dataset.item);const it=p.items[idx];if(!it)return;
     if(t.dataset.kind){it.kind=t.dataset.kind;queueSave('state');render()}
     else if(t.dataset.pic!==undefined){it.pic=t.dataset.pic;queueSave('state');render()}
     else if(t.dataset.mv){const j=idx+(+t.dataset.mv);if(j>=0&&j<p.items.length){[p.items[idx],p.items[j]]=[p.items[j],p.items[idx]];queueSave('state');render()}}
     else if(t.dataset.dup){const c=Object.assign({},it,{id:uid()});p.items.splice(idx+1,0,c);queueSave('state');render()}
-    else if(t.dataset.del){
-      if(t.dataset.sure){p.items.splice(idx,1);queueSave('state');render()}
-      else{t.dataset.sure='1';t.textContent='再撳一次確認刪除';setTimeout(()=>{if(t.isConnected){delete t.dataset.sure;t.textContent='刪除'}},3000)}
-    }
+    else if(t.dataset.del){twoTap(t,'再撳一次確認刪除',()=>{p.items.splice(idx,1);queueSave('state');render()})}
   }
 });
+function editTarget(t){
+  const p=activePlan();if(!p||t.closest('#session'))return null;
+  const card=t.closest('[data-item]');if(!card)return null;
+  const it=p.items.find(i=>i.id===card.dataset.item);return it?{p,card,it}:null;
+}
 document.addEventListener('input',e=>{
   const t=e.target;const p=activePlan();if(!p||t.closest('#session'))return;
   if(t.dataset.pfield){p.name=t.value;queueSave('state');return}
-  const card=t.closest('[data-item]');if(!card)return;
-  const it=p.items.find(i=>i.id===card.dataset.item);if(!it)return;
+  const x=editTarget(t);if(!x)return;const {card,it}=x;
   const f=t.dataset.f,n=Math.max(0,parseInt(t.value,10)||0);
   if(f==='name'||f==='note')it[f]=t.value;
-  else if(f==='sets')it.sets=Math.max(1,n);
-  else if(f==='reps')it.reps=Math.max(1,n);
-  else if(f==='hold')it.hold=Math.min(600,n);
+  else if(f==='sets')it.sets=Math.min(20,Math.max(1,n));
+  else if(f==='reps')it.reps=Math.min(200,Math.max(1,n));
+  else if(f==='hold'){it.hold=Math.min(600,n);card.querySelector('[data-when="hold"]').hidden=!(it.hold>0);card.querySelector('[data-when="nohold"]').hidden=it.hold>0}
+  else if(f==='relax')it.relax=Math.min(60,n);
+  else if(f==='tempo')it.tempo=Math.min(30,n);
   else if(f==='restm')it.rest=Math.min(30,n)*60+it.rest%60;
   else if(f==='rests')it.rest=Math.floor(it.rest/60)*60+Math.min(59,n);
   queueSave('state');
 });
+// 打完數字：格仔顯示返真正儲存咗嘅數（例如打 0 組會變返 1）
+document.addEventListener('change',e=>{
+  const t=e.target;if(t.type!=='number')return;const x=editTarget(t);if(!x)return;const {it}=x;const f=t.dataset.f;
+  const v=f==='restm'?Math.floor(it.rest/60):f==='rests'?it.rest%60:it[f];
+  if(v!==undefined&&String(v)!==t.value)t.value=v;
+});
 
 /* ---------- sound & voice ---------- */
-let actx=null,wake=null;
+let actx=null,wake=null,zhVoice=null;
+function pickVoice(){try{zhVoice=speechSynthesis.getVoices().find(v=>/zh[-_]HK|yue/i.test(v.lang))||null}catch(e){}}
+if('speechSynthesis' in window){pickVoice();try{speechSynthesis.addEventListener('voiceschanged',pickVoice)}catch(e){}}
 function unlockAudio(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){}
   try{if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}}catch(e){}}
 function beep(freq=880,ms=180){try{if(!actx)return;const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=freq;o.connect(g);g.connect(actx.destination);const t=actx.currentTime;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.5,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+ms/1000);o.start(t);o.stop(t+ms/1000+.05)}catch(e){}}
-function say(text){try{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-HK';const v=speechSynthesis.getVoices().find(v=>/zh[-_]HK|yue/i.test(v.lang));if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
+function say(text,force){try{if(!S.voice&&!force)return;if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-HK';if(!zhVoice)pickVoice();if(zhVoice)u.voice=zhVoice;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
 async function keepAwake(on){try{if(on&&'wakeLock' in navigator){wake=await navigator.wakeLock.request('screen')}else if(!on&&wake){await wake.release();wake=null}}catch(e){}}
-document.addEventListener('visibilitychange',()=>{if(sess&&sess.phase!=='done'&&document.visibilityState==='visible')keepAwake(true)});
 const D='零一二三四五六七八九';
-const num=n=>n<=10?(n===10?'十':D[n]):n<20?'十'+D[n-10]:D[Math.floor(n/10)]+'十'+(n%10?D[n%10]:'');
+function num(n){
+  n=Math.round(+n)||0;if(n<0||n>=1000)return String(n);
+  if(n<10)return D[n];
+  if(n<20)return '十'+(n%10?D[n%10]:'');
+  if(n<100)return D[Math.floor(n/10)]+'十'+(n%10?D[n%10]:'');
+  const h=Math.floor(n/100),r=n%100;
+  return D[h]+'百'+(r===0?'':r<10?'零'+D[r]:D[Math.floor(r/10)]+'十'+(r%10?D[r%10]:''));
+}
 
 /* ---------- session ---------- */
-let sess=null,tick=null;
+// 狀態：phase = work／rest／done；work 入面 hp = ready（等撳）／prep（準備倒數）／hold（撐住）／relax（放鬆）／count（自動數）
+let sess=null,tick=null,resume=null;
+const SESS_KEY='rehab-sess';
 const cur=()=>sess.items[sess.idx];
 const isHold=it=>+it.hold>0;
+const isTempo=it=>!isHold(it)&&+it.tempo>0;
+const isAuto=it=>isHold(it)||isTempo(it);
 const clock=s=>s>=60?`${Math.floor(s/60)}:${pad(s%60)}`:`${s}<small>秒</small>`;
 function stopTick(){clearInterval(tick);tick=null}
 function startTick(){stopTick();tick=setInterval(onTick,200)}
+function saveSess(){if(sess&&sess.phase!=='done'){sess.savedAt=Date.now();lsSet(SESS_KEY,sess)}}
+function clearSess(){lsDel(SESS_KEY)}
+function loadResume(){
+  const r=lsGet(SESS_KEY);resume=null;
+  if(!r||!Array.isArray(r.items)||!r.items.length||r.phase==='done'||!r.start){clearSess();return}
+  const any=(r.done||[]).some(d=>d>0)||r.rep>0||r.count>0;
+  if(!any&&Date.now()-(r.savedAt||r.start)>3*3600e3){clearSess();return}
+  resume=r;
+}
 
 function intro(it,first){
   const what=it.kind==='st'?'拉筋':'動作';
-  const how=isHold(it)?(it.reps>1?`做${num(it.reps)}下，每下撐${num(it.hold)}秒`:`撐${fmtT(it.hold)}`):`做${num(it.reps)}下`;
+  const how=isHold(it)?(it.reps>1?`做${num(it.reps)}下，每下撐${num(it.hold)}秒`:`撐${fmtT(it.hold)}`):isTempo(it)?`做${num(it.reps)}下，每${num(it.tempo)}秒數一下`:`做${num(it.reps)}下`;
   return `${first?'開始。':''}${what}，${it.name||''}，${how}`;
+}
+function openSession(){
+  document.body.classList.add('locked');window.scrollTo(0,0);
+  $('#session').hidden=false;drawSession();
 }
 $('#startBtn').addEventListener('click',()=>{
   const p=activePlan();if(!p||!p.items.length)return;
+  if(resume){addLog(makeEntry(resume,resume.savedAt||resume.start));resume=null} // 上次未做完嘅自動存低，唔會冇咗
   unlockAudio();keepAwake(true);
-  const items=JSON.parse(JSON.stringify(p.items));
-  sess={plan:p.name,planId:p.id,items,idx:0,set:1,rep:0,count:0,hp:'ready',done:items.map(()=>0),start:Date.now(),phase:'work',confirm:false};
-  document.body.classList.add('locked');window.scrollTo(0,0);
-  $('#session').hidden=false;drawSession();
+  const items=clone(p.items);
+  sess={plan:p.name,planId:p.id,items,idx:0,set:1,rep:0,count:0,hp:'ready',done:items.map(()=>0),start:Date.now(),idle:0,phase:'work',confirm:false};
+  openSession();
   say(intro(items[0],true));
 });
+function doResume(){
+  const r=resume;resume=null;
+  unlockAudio();keepAwake(true);
+  sess=r;sess.idle=(+sess.idle||0)+Math.max(0,Date.now()-(r.savedAt||Date.now()));
+  sess.confirm=false;
+  if(sess.phase==='rest'&&sess.pending){sess.idx=sess.pending.idx;sess.set=sess.pending.set;sess.rep=0;sess.count=0}
+  sess.pending=null;sess.phase='work';sess.hp='ready';
+  openSession();
+  say('繼續。'+intro(cur()));
+}
 function nextPos(){const it=cur();if(sess.set<it.sets)return{idx:sess.idx,set:sess.set+1};let i=sess.idx+1;while(i<sess.items.length&&!(sess.items[i].sets>0))i++;return i<sess.items.length?{idx:i,set:1}:null}
 function completeSet(){
   stopTick();
-  sess.done[sess.idx]=Math.max(sess.done[sess.idx],sess.set);
+  sess.done[sess.idx]=Math.max(sess.done[sess.idx]||0,sess.set);
   const nx=nextPos();
   if(!nx){finish(true);return}
   sess.pending=nx;
   const rest=+cur().rest||0;
-  if(rest<=0){goTo(nx,true);return}
+  if(rest<=0){goTo(nx,true,S.autoNext);return}
   sess.phase='rest';sess.restTotal=rest;sess.restEnd=Date.now()+rest*1000;sess.lastSec=null;
   beep(660,120);startTick();drawSession();
 }
-function goTo(nx,speak){
+function goTo(nx,speak,auto){
   stopTick();
   const changed=nx.idx!==sess.idx;
   sess.idx=nx.idx;sess.set=nx.set;sess.phase='work';sess.pending=null;sess.rep=0;sess.count=0;sess.hp='ready';
   drawSession();
   if(speak)say(changed?'下一個'+intro(cur()):`開始第${num(sess.set)}組，${cur().name||''}`);
+  if(auto&&isAuto(cur()))startPrep(false);
 }
+// 撳「開始」之後：先準備倒數（設定入面揀幾秒），再開始撐／自動數
+function startPrep(speak){
+  const it=cur();if(!isAuto(it))return;
+  stopTick();
+  const n=+S.prep||0;
+  if(n<=0){begin();return}
+  sess.hp='prep';sess.tEnd=Date.now()+n*1000;sess.lastSec=null;
+  if(speak)say('準備');
+  startTick();drawSession();
+}
+function begin(){if(isHold(cur()))startHold();else startCount()}
 function startHold(){
   const it=cur();sess.hp='hold';sess.tEnd=Date.now()+it.hold*1000;sess.lastSec=null;
   beep(880,200);startTick();drawSession();
+}
+function startCount(){
+  const it=cur();sess.hp='count';sess.tEnd=Date.now()+it.tempo*1000;sess.lastSec=null;
+  beep(880,200);startTick();drawSession();
+}
+function restDone(){
+  beep(988,450);setTimeout(()=>beep(988,450),550);try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}
+  const nx=sess.pending,changed=nx.idx!==sess.idx;
+  goTo(nx,false,S.autoNext);
+  say('休息完喇。'+(changed?'下一個'+intro(cur()):`開始第${num(nx.set)}組`));
 }
 function onTick(){
   if(!sess)return stopTick();
   const now=Date.now();
   if(sess.phase==='rest'){
     const left=Math.ceil((sess.restEnd-now)/1000);
-    if(left<=0){beep(988,450);setTimeout(()=>beep(988,450),550);try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}
-      const nx=sess.pending,changed=nx.idx!==sess.idx;goTo(nx,false);
-      say('休息完喇。'+(changed?'下一個'+intro(cur()):`開始第${num(nx.set)}組`));return}
-    if(left!==sess.lastSec){sess.lastSec=left;if(left<=3)beep(740,120);updateDial(left)}
+    if(left<=0){restDone();return}
+    if(left!==sess.lastSec){sess.lastSec=left;if(left<=3)beep(740,120);else if(left===10&&sess.restTotal>=30)say('仲有十秒');updateDial(left)}
     return;
   }
-  if(sess.phase!=='work'||(sess.hp!=='hold'&&sess.hp!=='relax'))return;
+  const hp=sess.hp;
+  if(sess.phase!=='work'||!['prep','hold','relax','count'].includes(hp))return;
   const it=cur();const left=Math.ceil((sess.tEnd-now)/1000);
   if(left<=0){
-    if(sess.hp==='hold'){
+    if(hp==='prep'){begin();return}
+    if(hp==='relax'){startHold();return}
+    if(hp==='hold'){
       sess.rep++;beep(523,300);
       if(sess.rep>=it.reps){say(it.reps>1?`${num(sess.rep)}，呢組完成`:'時間到，做得好');completeSet();return}
-      say(num(sess.rep));sess.hp='relax';sess.tEnd=now+RELAX*1000;sess.lastSec=null;drawSession();return;
-    }else{startHold();return}
+      say(num(sess.rep));
+      const rl=+it.relax||0;
+      sess.hp=rl>0?'relax':'hold';sess.tEnd=now+(rl>0?rl:it.hold)*1000;sess.lastSec=null;drawSession();return;
+    }
+    if(hp==='count'){
+      sess.count++;
+      if(sess.count>=it.reps){beep(523,300);say(`${num(sess.count)}，呢組完成`);completeSet();return}
+      beep(880,80);say(num(sess.count));
+      sess.tEnd+=it.tempo*1000;if(sess.tEnd<=now)sess.tEnd=now+it.tempo*1000;
+      sess.lastSec=null;drawSession();return;
+    }
   }
   if(left!==sess.lastSec){
     sess.lastSec=left;
-    const t=$('#holdT');if(t)t.innerHTML=clock(left);
-    if(sess.hp==='hold'){
+    const t=$('#holdT');if(t&&hp!=='count')t.innerHTML=clock(left);
+    if(hp==='prep'&&left<=3)beep(740,100);
+    if(hp==='hold'){
       if(it.hold>90&&left===60)say('仲有一分鐘');
       else if(it.hold>45&&left===30)say('仲有三十秒');
       else if(it.hold>=20&&left===10)say('仲有十秒');
@@ -542,39 +779,54 @@ function updateDial(left){
   const c=$('#dialC');const L=2*Math.PI*45;c.style.strokeDashoffset=L*(1-left/sess.restTotal);
 }
 function finish(complete){
-  stopTick();keepAwake(false);
-  const entry={t:sess.start,plan:sess.plan,planId:sess.planId,dur:Math.round((Date.now()-sess.start)/1000),
-    items:sess.items.map((i,k)=>({name:i.name||'未命名',sets:+i.sets,reps:+i.reps,done:sess.done[k]}))};
-  const any=entry.items.some(i=>i.done>0);
-  if(any){H.log.unshift(entry);if(H.log.length>400)H.log.length=400;queueSave('hist')}
+  stopTick();keepAwake(false);clearSess();
+  sess.end=Date.now();
+  const any=addLog(makeEntry(sess,sess.end));
   sess.phase='done';sess.saved=any;sess.complete=complete;drawSession();
   if(complete)say('全部完成，做得好！');
+}
+function closeSession(){
+  stopTick();keepAwake(false);clearSess();
+  sess=null;document.body.classList.remove('locked');$('#session').hidden=true;$('#session').classList.remove('resting');render();
+  if(pendingVer)setTimeout(()=>applyUpdate(false),300);
 }
 function progBar(){return `<div class="prog">${sess.items.map((it,k)=>Array.from({length:+it.sets||0},(_,s)=>`<i class="${s<sess.done[k]?'d':(k===sess.idx&&s===sess.set-1&&sess.phase==='work')?'c':''}"></i>`).join('')).join('')}</div>`}
 function drawSession(){
   const el=$('#session');
   if(!sess){el.hidden=true;return}
+  saveSess();
   el.classList.toggle('resting',sess.phase==='rest');
   const it=cur();
   const top=`<div class="s-top"><div class="sub">${esc(sess.plan)}</div>${sess.phase!=='done'?`<button class="btn small" data-s="ask">結束</button>`:''}</div>${progBar()}
    ${sess.confirm?`<div class="confirm" style="margin-top:.6rem"><div>提早結束？已做嘅組數會記錄低。</div><div class="row"><button class="btn small danger" data-s="end">儲存並結束</button><button class="btn small" data-s="cancel">繼續做</button></div></div>`:''}`;
   if(sess.phase==='work'){
     const setDots=it.sets>1?`<div class="sets" aria-label="第 ${sess.set} 組，共 ${it.sets} 組">${Array.from({length:it.sets},(_,s)=>`<b class="${s<sess.set-1?'d':s===sess.set-1?'c':''}">${s+1}</b>`).join('')}</div>`:'';
-    let mid,btns;
-    let tap=false;
-    if(!isHold(it)){
+    const setTxt=it.sets>1?`第 ${sess.set} / ${it.sets} 組`:'';
+    const st=sess.hp;
+    const tLeft=st==='ready'?it.hold:Math.max(0,Math.ceil((sess.tEnd-Date.now())/1000));
+    let mid,btns,tap=false;
+    if(!isAuto(it)){
       tap=true;
       mid=`<div class="s-state tap">撳畫面任何位置加一下</div><div class="s-big hold">${sess.count}<small>/ ${it.reps} 下</small></div>
-        ${it.sets>1?`<div class="s-sub">第 ${sess.set} / ${it.sets} 組</div>`:''}${setDots}`;
+        ${setTxt?`<div class="s-sub">${setTxt}</div>`:''}${setDots}`;
       btns=`<button class="btn primary" data-s="tap">＋1 下</button><div class="two"><button class="btn" data-s="minus" ${sess.count?'':'disabled'}>−1 撳錯</button><button class="btn" data-s="done">呢組做完</button><button class="btn" data-s="skip">跳過</button></div>`;
-    }else{
-      const st=sess.hp;const left=st==='ready'?it.hold:Math.max(0,Math.ceil((sess.tEnd-Date.now())/1000));
+    }else if(isHold(it)){
       tap=st==='ready';
-      const stateTxt=st==='hold'?(it.kind==='st'?'拉住':'撐住'):st==='relax'?'放鬆':'準備好就撳畫面開始';
-      mid=`<div class="s-state ${st}">${stateTxt}</div><div class="s-big ${st}" id="holdT">${clock(left)}</div>
-        ${it.reps>1?`<div class="s-sub">第 <b>${Math.min(sess.rep+(st==='relax'?0:1),it.reps)}</b> / ${it.reps} 下${it.sets>1?` · 第 ${sess.set} / ${it.sets} 組`:''}</div>`:it.sets>1?`<div class="s-sub">第 ${sess.set} / ${it.sets} 組</div>`:''}${setDots}`;
+      const stateTxt=st==='prep'?'準備':st==='hold'?(it.kind==='st'?'拉住':'撐住'):st==='relax'?'放鬆':'準備好就撳畫面開始';
+      mid=`<div class="s-state ${st}">${stateTxt}</div><div class="s-big ${st}" id="holdT">${clock(tLeft)}</div>
+        ${it.reps>1?`<div class="s-sub">第 <b>${Math.min(sess.rep+(st==='relax'?0:1),it.reps)}</b> / ${it.reps} 下${setTxt?` · ${setTxt}`:''}</div>`:setTxt?`<div class="s-sub">${setTxt}</div>`:''}${setDots}`;
       const go=it.kind==='st'?'開始拉':'開始撐';
-      btns=st==='ready'?`<button class="btn primary" data-s="hold">${sess.rep>0?'繼續':go} ${it.hold>=60?fmtT(it.hold):it.hold+' 秒'}</button>`
+      btns=st==='ready'?`<button class="btn primary" data-s="start">${sess.rep>0?'繼續':go} ${it.hold>=60?fmtT(it.hold):it.hold+' 秒'}</button>`
+        :`<button class="btn" data-s="pause">暫停</button>`;
+      btns+=`<div class="two"><button class="btn" data-s="done">呢組做完</button><button class="btn" data-s="skip">跳過</button></div>`;
+    }else{
+      tap=st==='ready';
+      const stateTxt=st==='prep'?'準備':st==='count'?`自動數緊 · 每 ${it.tempo} 秒一下`:'準備好就撳畫面開始';
+      mid=`<div class="s-state ${st==='count'?'hold':st==='prep'?'prep':'tap'}">${stateTxt}</div>
+        ${st==='prep'?`<div class="s-big prep" id="holdT">${clock(tLeft)}</div><div class="s-sub">已做 ${sess.count} / ${it.reps} 下</div>`
+          :`<div class="s-big hold">${sess.count}<small>/ ${it.reps} 下</small></div>`}
+        ${setTxt?`<div class="s-sub">${setTxt}</div>`:''}${setDots}`;
+      btns=st==='ready'?`<button class="btn primary" data-s="start">${sess.count>0?'繼續':'開始'}自動數（每 ${it.tempo} 秒）</button>`
         :`<button class="btn" data-s="pause">暫停</button>`;
       btns+=`<div class="two"><button class="btn" data-s="done">呢組做完</button><button class="btn" data-s="skip">跳過</button></div>`;
     }
@@ -587,21 +839,24 @@ function drawSession(){
     </div><div class="s-bottom">${btns}</div>`;
   }else if(sess.phase==='rest'){
     const nx=sess.pending,ni=sess.items[nx.idx];const L=2*Math.PI*45;
+    const autoTxt=S.autoNext&&isAuto(ni)?`<div class="s-sub">休息完自動開始${S.prep?`（準備 ${S.prep} 秒）`:''}</div>`:'';
     el.innerHTML=`${top}<div class="s-main">
       <div class="s-label">休息</div>
       <div class="dial"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" style="stroke:var(--line)" stroke-width="6"></circle><circle id="dialC" cx="50" cy="50" r="45" fill="none" style="stroke:var(--rest)" stroke-width="6" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="0"></circle></svg><div class="t" id="dialT"></div></div>
       <div class="s-sub">跟住：${nx.set===1?`下一個${kindName(ni.kind)} · <b>${esc(ni.name||'未命名')}</b>`:`第 ${nx.set} 組 · ${esc(ni.name||'')}`}</div>
+      ${autoTxt}
       ${nx.set===1&&ni.pic?`<div class="s-pic" style="opacity:.85">${pic(ni.pic)}</div>`:''}
     </div>
     <div class="s-bottom"><div class="two"><button class="btn" data-s="plus">＋30 秒</button><button class="btn rest" data-s="go">唔休息，即刻做</button></div></div>`;
     updateDial(Math.ceil((sess.restEnd-Date.now())/1000));
   }else{
-    const done=sess.done.reduce((a,b)=>a+b,0),tot=sess.items.reduce((a,i)=>a+(+i.sets||0),0);
+    const done=sess.done.reduce((a,b)=>a+(b||0),0),tot=sess.items.reduce((a,i)=>a+(+i.sets||0),0);
+    const mins=Math.max(1,Math.round(((sess.end||Date.now())-sess.start-(sess.idle||0))/60000));
     el.innerHTML=`${top}<div class="s-main">
       <div class="s-label">${sess.complete?'完成':'已結束'}</div>
       <div class="s-name">${sess.complete?'全部做完，做得好！':'今日做咗一部分'}</div>
       <div class="s-big">${done}<small>/ ${tot} 組</small></div>
-      <div class="sub">用咗 ${Math.max(1,Math.round((Date.now()-sess.start)/60000))} 分鐘${sess.saved?' · 已記錄':''}</div>
+      <div class="sub">用咗 ${mins} 分鐘${sess.saved?' · 已記錄':''}</div>
     </div><div class="s-bottom"><button class="btn primary" data-s="close">返主頁</button></div>`;
   }
 }
@@ -615,19 +870,111 @@ document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('dblclick',e=>{if(e.target.closest('#session'))e.preventDefault()});
 $('#session').addEventListener('click',e=>{
   const b=e.target.closest('[data-s]');if(!b||!sess)return;const a=b.dataset.s;
-  if(a==='tap'){if(isHold(cur())){if(sess.hp==='ready')startHold()}else addRep()}
+  if(a==='tap'){if(sess.phase!=='work')return;if(isAuto(cur())){if(sess.hp==='ready')startPrep(true)}else addRep()}
+  else if(a==='start'){if(sess.hp==='ready')startPrep(true)}
   else if(a==='minus'){sess.count=Math.max(0,sess.count-1);drawSession()}
   else if(a==='done')completeSet();
-  else if(a==='hold')startHold();
-  else if(a==='pause'){stopTick();if(sess.hp==='relax'){}sess.hp='ready';drawSession()}
-  else if(a==='skip'){stopTick();sess.set=cur().sets;const nx=nextPos();if(nx)goTo(nx,true);else finish(false)}
-  else if(a==='plus'){sess.restEnd+=30000;sess.restTotal+=30;updateDial(Math.ceil((sess.restEnd-Date.now())/1000))}
-  else if(a==='go'){const nx=sess.pending;goTo(nx,true)}
+  else if(a==='pause'){stopTick();sess.hp='ready';drawSession()}
+  else if(a==='skip'){stopTick();sess.set=cur().sets;const nx=nextPos();if(nx)goTo(nx,true,false);else finish(false)}
+  else if(a==='plus'){sess.restEnd+=30000;sess.restTotal+=30;updateDial(Math.ceil((sess.restEnd-Date.now())/1000));saveSess()}
+  else if(a==='go'){goTo(sess.pending,true,true)}
   else if(a==='ask'){sess.confirm=true;drawSession()}
   else if(a==='cancel'){sess.confirm=false;drawSession()}
   else if(a==='end'){sess.confirm=false;finish(false)}
-  else if(a==='close'){sess=null;document.body.classList.remove('locked');$('#session').hidden=true;$('#session').classList.remove('resting');render()}
+  else if(a==='close'){closeSession()}
 });
+// App 轉去背景（或者被 iPhone 閂咗）之前：即刻存低資料同做緊嘅進度
+function persistNow(){flushSaves();saveSess()}
+window.addEventListener('pagehide',persistNow);
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden'){persistNow();return}
+  if(sess&&sess.phase!=='done')keepAwake(true);
+  setTimeout(()=>checkUpdate(false),800);
+});
+
+/* ---------- backup ---------- */
+let pendingImport=null;
+function bkMsg(html){const m=$('#bkMsg');if(m)m.innerHTML=html}
+async function exportBackup(){
+  flushSaves();
+  const d=new Date(),name=`rehab-backup-${dayKey(d.getTime())}.json`; // 英文檔名：中文檔名有啲瀏覽器下載會變「download」
+  const json=JSON.stringify({app:'復康運動',ver:VER,exported:d.toISOString(),state:S,hist:H});
+  const done=how=>{S.lastBackup=Date.now();queueSave('state');renderSet();bkMsg(`<div class="ok">已匯出（${H.log.length} 次紀錄）。${how}</div>`)};
+  let file=null;
+  try{file=new File([json],name,{type:'application/json'})}catch(e){}
+  if(file&&navigator.canShare&&navigator.share){
+    try{if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'復康運動備份'});done('建議揀「儲存到檔案」放入 iCloud Drive。');return}}
+    catch(e){if(e&&e.name==='AbortError')return}
+  }
+  try{
+    const url=URL.createObjectURL(file||new Blob([json],{type:'application/json'}));
+    const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);done('檔案喺「下載」資料夾。');
+  }catch(e){bkMsg('<div class="warn">匯出唔到，請用 Safari 開網址再試。</div>')}
+}
+function pickImport(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
+  inp.onchange=()=>{const f=inp.files&&inp.files[0];if(f)readImport(f)};inp.click();
+}
+function readImport(f){
+  const bad=()=>bkMsg('<div class="warn">讀唔到呢個檔，請揀匯出嘅備份檔（rehab-backup-日期.json）。</div>');
+  const r=new FileReader();
+  r.onload=()=>{
+    let d;try{d=JSON.parse(r.result)}catch(e){bad();return}
+    if(!d||!d.state||!Array.isArray(d.state.plans)){bad();return}
+    const log=d.hist&&Array.isArray(d.hist.log)?d.hist.log.filter(l=>l&&l.t&&Array.isArray(l.items)):[];
+    pendingImport={state:d.state,log};
+    const when=d.exported?new Date(d.exported).toLocaleDateString('zh-HK',{year:'numeric',month:'long',day:'numeric'}):'未知日期';
+    bkMsg(`<div class="confirm"><div>備份日期：${esc(when)}，有 ${d.state.plans.length} 個計劃、${log.length} 次紀錄。<br>計劃同設定會換成備份入面嘅；紀錄會合併，唔會重複，亦唔會刪走而家嘅紀錄。</div>
+      <div class="row"><button class="btn small primary" data-act="impok">匯入</button><button class="btn small" data-act="impno">取消</button></div></div>`);
+  };
+  r.onerror=bad;r.readAsText(f);
+}
+function applyImport(){
+  const im=pendingImport;if(!im)return;pendingImport=null;
+  const keepBackup=S.lastBackup;
+  S=Object.assign({plans:[],activeId:null,big:false},clone(im.state));
+  S.lastBackup=Math.max(+S.lastBackup||0,+keepBackup||0);
+  const m=new Map();[...H.log,...clone(im.log)].forEach(l=>m.set(l.t,l));
+  H.log=[...m.values()].sort((a,b)=>b.t-a.t).slice(0,LOG_MAX);
+  norm();applyFont();queueSave('state');queueSave('hist');renderSet();
+  bkMsg(`<div class="ok">已匯入：${S.plans.length} 個計劃、${H.log.length} 次紀錄。</div>`);
+}
+
+/* ---------- auto update（GitHub Pages：手機主畫面 App 唔會自己攞新版） ---------- */
+const VER=window.__REHAB_VER||'dev';
+let pendingVer=null,lastCheck=0;
+const canCheck=()=>/^https?:$/.test(location.protocol)&&!window.claude&&VER!=='dev';
+function updMsg(t){const m=$('#updMsg');if(m)m.textContent=t}
+async function checkUpdate(manual){
+  if(!canCheck()){if(manual)updMsg('呢個開法唔使檢查更新。');return}
+  if(!manual&&Date.now()-lastCheck<20000)return;
+  lastCheck=Date.now();
+  if(manual)updMsg('檢查緊有冇新版本…');
+  try{
+    const base=location.origin+location.pathname;
+    const r=await fetch(base+'?vcheck='+Date.now(),{cache:'no-store'});
+    const m=(await r.text()).match(new RegExp("__REHAB"+"_VER='([0-9A-Za-z-]+)'"));
+    if(!m){if(manual)updMsg('暫時連唔到 GitHub，遲啲再試。');return}
+    if(m[1]===VER){if(manual)updMsg('已經係最新版本。');return}
+    pendingVer=m[1];
+    if(manual)updMsg('搵到新版本，即刻更新！');
+    applyUpdate(manual);
+  }catch(e){if(manual)updMsg('暫時連唔到 GitHub，遲啲再試。')}
+}
+function applyUpdate(manual){
+  if(!pendingVer)return;
+  if(sess){if(manual)updMsg('做完運動先更新。');return} // 做緊運動唔好重新載入
+  try{
+    const last=JSON.parse(sessionStorage.getItem('rehab-upd')||'null');
+    if(!manual&&last&&last.v===pendingVer&&Date.now()-last.t<120000)return; // 防止不停重新載入
+    sessionStorage.setItem('rehab-upd',JSON.stringify({v:pendingVer,t:Date.now()}));
+  }catch(e){}
+  flushSaves();
+  location.replace(location.origin+location.pathname+'?v='+encodeURIComponent(pendingVer));
+}
+setTimeout(()=>checkUpdate(false),1500);
+setInterval(()=>{if(document.visibilityState==='visible')checkUpdate(false)},5*60*1000);
 
 initStore();
 })();
